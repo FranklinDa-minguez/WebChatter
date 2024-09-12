@@ -29,4 +29,27 @@ document.addEventListener('DOMContentLoaded', () => {
       handleSend();
     }
   });
+
+  sendButton.addEventListener('click', () => {
+    handleSend();
+  });
 });
+
+const pageTitle = document.title;
+const pageText = document.body.innerText
+.replace(/\n/g, ' ')
+.replace(/\t/g, ' ')
+.trim();
+const headings = Array.from(document.querySelectorAll('h1, h2, h3')).map(h => h.innerText); // Extract all headings
+const metaDescription = document.querySelector('meta[name="description"]')?.getAttribute('content');
+const links = Array.from(document.querySelectorAll('a')).map(a => a.href);
+
+// Send the extracted data to the background script or popup
+chrome.runtime.sendMessage({
+  pageTitle: pageTitle,
+  pageText: pageText,
+  headings: headings,
+  metaDescription: metaDescription,
+  links: links
+});
+

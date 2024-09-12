@@ -28,8 +28,13 @@
   }
   
   #send-btn {
-    width: 70px;
+    width: 50px;
     margin-left: 10px;
     padding: 5px;
   }
   
+  .MsgAndSend {
+    display: flex;
+    align-items: center;
+    
+  }
