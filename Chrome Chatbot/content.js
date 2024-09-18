@@ -40,7 +40,7 @@ const pageText = document.body.innerText
 .replace(/\n/g, ' ')
 .replace(/\t/g, ' ')
 .trim();
-const headings = Array.from(document.querySelectorAll('h1, h2, h3')).map(h => h.innerText); // Extract all headings
+const headings = Array.from(document.querySelectorAll('h1, h2, h3')).map(h => h.innerText);
 const metaDescription = document.querySelector('meta[name="description"]')?.getAttribute('content');
 const links = Array.from(document.querySelectorAll('a')).map(a => a.href);
 
