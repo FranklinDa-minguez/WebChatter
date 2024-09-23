@@ -5,6 +5,15 @@ import { PromptTemplate } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { createStuffDocumentsChain } from "langchain/chains/combine_documents";
 
+// Access the API key from environment variables
+const apikey = process.env.OPENAI_API_KEY;
+
+console.log(apikey, "nuga");
+
+if (!apikey) {
+  throw new Error('OPENAI_API_KEY is not defined. Please set it in the .env file.');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const sendButton = document.getElementById('send-btn');
   const chatContent = document.getElementById('chat-content');
@@ -18,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     chatContent.scrollTop = chatContent.scrollHeight;
   }
 
-  const llm = new ChatOpenAI({ model: "gpt-3.5-turbo", temperature: 0 });
+  const llm = new ChatOpenAI({ model: "gpt-3.5-turbo", apikey: apikey, temperature: 0 });
   const text_splitter = new RecursiveCharacterTextSplitter({
     chunkSize: 200,
     chunckOverlap: 50,
@@ -26,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const splits = text_splitter.split(pageText);
   const vectorStore = MemoryVectorStore.fromDocuments(
     splits,
-    new OpenAIEmbeddings()
+    new OpenAIEmbeddings({ apiKey: apikey })
   );
   retriever = vectorStore.asRetriever({
     k: 3,

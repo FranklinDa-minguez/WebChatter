@@ -1,7 +1,13 @@
 const path = require('path');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
+const Dotenv = require('dotenv-webpack');
+
+// Load environment variables from .env file
+dotenv.config();
 
 module.exports = {
-  entry: './src/content.js',
+  entry: './content.js', // Entry point for your application
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
@@ -26,4 +32,12 @@ module.exports = {
       'langchain': path.resolve(__dirname, 'node_modules/langchain'),
     },
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.OPENAI_API_KEY': JSON.stringify(process.env.OPENAI_API_KEY),
+    }),
+    new Dotenv({
+      path: './.env',
+    }),
+  ],
 };
